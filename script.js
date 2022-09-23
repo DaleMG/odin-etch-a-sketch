@@ -1,9 +1,11 @@
 const resetBtn = document.querySelector('.resets')
 const gridSizeBtn = document.querySelector('.gridSize')
 const rainbowBtn = document.querySelector('.rainbow')
+const blackBtn = document.querySelector('.black')
+let truck = false;
 
 document.addEventListener("DOMContentLoaded", function(){
-    createGrid(32);
+    createGrid(16);
 })
 
 function createGrid(gSize) {
@@ -15,6 +17,13 @@ function createGrid(gSize) {
 
     for (let i = 0;i < numDivs;i++) {
         let div = document.createElement('div')
+        div.addEventListener("mouseover", function(){
+            if (truck == true) {
+                div.style.backgroundColor = rainbowColor()
+            } else {
+                div.style.backgroundColor = "black"
+            }
+        })
         containerGrid.insertAdjacentElement("beforeend", div)
     }
 }
@@ -27,14 +36,32 @@ function getSize() {
     return createGrid(input)
 }
 
+function rainbowColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+    return color;
+}
+
+function resetGrid() {
+    let divs = document.querySelectorAll("div")
+    divs.forEach((div) => div.style.backgroundColor = "white")
+}
+
 resetBtn.addEventListener('click', () => {
-    prompt('hi')
+    resetGrid()
+    createGrid(16)
 })
 gridSizeBtn.addEventListener('click', () => {
    getSize();
 })
 rainbowBtn.addEventListener('click', () => {
-    prompt('hi')
-})
+    truck = true;
+ })
+blackBtn.addEventListener('click', () => {
+    truck = false;
+ })
 
 
